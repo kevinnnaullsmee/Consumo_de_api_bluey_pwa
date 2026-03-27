@@ -3,6 +3,7 @@ import * as api from './api.js';
 // DOM Elements
 const body = document.body;
 const themeToggle = document.getElementById('theme-toggle');
+const installBtn = document.getElementById('install-app');
 
 const navBtns = document.querySelectorAll('.nav-btn');
 const views = document.querySelectorAll('.view-section');
@@ -10,6 +11,24 @@ const views = document.querySelectorAll('.view-section');
 const searchResultsGrid = document.getElementById('search-results-grid');
 const searchResultsTitle = document.getElementById('search-results-title');
 const loaderSearch = document.getElementById('loader-search');
+
+// --- PWA Install Prompt ---
+let deferredInstallPrompt = null;
+
+// Capturamos el evento beforeinstallprompt para mostrarlo cuando queramos
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); // Evita que el navegador lo muestre automáticamente
+    deferredInstallPrompt = e;
+    installBtn.classList.remove('hidden'); // Mostramos nuestro botón personalizado
+    console.log('PWA install prompt captured, ready to show.');
+});
+
+// Ocultamos el botón si la app ya fue instalada
+window.addEventListener('appinstalled', () => {
+    installBtn.classList.add('hidden');
+    deferredInstallPrompt = null;
+    console.log('PWA was installed successfully.');
+});
 
 // --- Bluey Relevance ---
 // Lowest threshold: match "bluey" anywhere, or at least one related keyword.
@@ -55,11 +74,29 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initModal();
     initErrorHandling();
+    initInstallButton();
     registerServiceWorker();
     
     // Auto-load Bluey series
     loadBlueySeries();
 });
+
+// --- PWA Install Button ---
+function initInstallButton() {
+    installBtn.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) return;
+        
+        // Mostramos el diálogo nativo del navegador
+        deferredInstallPrompt.prompt();
+        
+        const { outcome } = await deferredInstallPrompt.userChoice;
+        console.log(`Usuario eligió: ${outcome}`);
+        
+        // Limpiamos el prompt guardado (solo puede usarse una vez)
+        deferredInstallPrompt = null;
+        installBtn.classList.add('hidden');
+    });
+}
 
 // --- Service Worker Registration ---
 function registerServiceWorker() {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bluey-pwa-cache-v3';
+const CACHE_NAME = 'bluey-pwa-cache-v4';
 const API_CACHE_NAME = 'bluey-api-cache-v1';
 const urlsToCache = [
   './',
