@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMDB Serie Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Setup -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="apple-touch-icon" href="img/pwa-icon.png">
+</head>
+<body class="dark-theme">
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fa-solid fa-tv"></i> TMDB <span class="highlight">Explorer</span>
+            </div>
+            <nav class="main-nav">
+                <button id="nav-search" class="nav-btn active">Series de Bluey</button>
+            </nav>
+            <div class="controls">
+                <button id="theme-toggle" class="control-btn" title="Cambiar modo claro/oscuro">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-main">
+        <!-- Error Container -->
+        <div id="error-container" class="error-container hidden">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span id="error-message">Ha ocurrido un error.</span>
+            <button id="close-error" class="close-btn">&times;</button>
+        </div>
+
+        <!-- Section: Search View -->
+        <section id="view-search" class="view-section active">
+            <div class="hero-search">
+                <h1>El mundo de Bluey</h1>
+                <p>Explora las series animadas de nuestro perrito favorito.</p>
+            </div>
+            
+            <div class="results-header">
+                <h2 id="search-results-title">Series Destacadas</h2>
+                <div id="loader-search" class="loader hidden"></div>
+            </div>
+            
+            <div id="search-results-grid" class="cards-grid">
+                <!-- Se poblará dinámicamente -->
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <!-- Modal for Series Details -->
+    <div id="details-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-modal" class="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modal-body" class="modal-body">
+                <!-- Loading state -->
+                <div class="modal-loader"><div class="loader"></div><p>Cargando detalles...</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
